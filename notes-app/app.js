@@ -1,8 +1,16 @@
-// console.log("HELLO THERE ,I am starting to learn the node again so that i can master the skills");
+// PRACTICE
+// const utils = require('./utils');
+// console.log(utils.add(2,3))
 
-const fs  = require('fs');
+// const re = require('./utils.js');
 
-fs.writeFileSync('create.txt',"CREATEd THIS FILE WITH THE HELP OF NODE.JS")
+// console.log(re);
+
+// console.log(re.lastName)
 
 
-fs.appendFileSync("create.txt"," \nappend this content in the file")
+// CHALLENGE
+
+const notes = require('./notes');
+
+console.log(notes())
