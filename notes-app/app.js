@@ -11,6 +11,13 @@
 
 // CHALLENGE
 
+const validator = require('validator');
 const notes = require('./notes');
 
-console.log(notes())
+console.log(validator.isEmail("deepesh@gmail.cosm"));
+
+console.log(validator.isURL('https://googlde.com'));
+console.log(validator.isURL('https://arya-wesather.herokuapp.com'));
+
+console.log(notes.getNotes());
+console.log(notes.add);
