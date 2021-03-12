@@ -5,10 +5,10 @@ const getNotes = function(){
     return "Your notes ";
 }
 
-const addNote = function (title,body){
+const addNote =  (title,body)=>{
     const allNotes = loadNotes();
     // console.log(typeof(loadingNotes))
-    const dup = allNotes.filter(function(note){
+    const dup = allNotes.filter((note)=>{
         return note.title===title 
     })
 
@@ -26,11 +26,11 @@ const addNote = function (title,body){
     }
 }
 
-const removeNote = function(title){
+const removeNote = (title) =>{
 
     const allNotes = loadNotes();
     var found = 0;
-    const noteToKeep = allNotes.filter(function(note){
+    const noteToKeep = allNotes.filter((note)=>{
         if(note.title===title){
             found=1;
         }
@@ -46,18 +46,26 @@ const removeNote = function(title){
 
     saveNotes(noteToKeep)   
 
-
-
-
 }
+const listNotes = ()=>{
+    try{
+    const bufferData = fs.readFileSync('notes.json');
+    const stringData = bufferData.toString();
+    const jsonData = JSON.parse(stringData);
+    return jsonData;
+    }catch(e){
+        console.log("The error is :" +e)
+    }
+} 
 
-const saveNotes = function(notes){
+
+const saveNotes = (notes)=>{
     const notesString = JSON.stringify(notes);
 
     fs.writeFileSync('notes.json',notesString)
 }
 
-const loadNotes = function (){
+const loadNotes =  ()=>{
     try{
         const dataBuffer = fs.readFileSync('notes.json')
         const jsonData = dataBuffer.toString();
@@ -68,8 +76,10 @@ const loadNotes = function (){
 }
 
 
-module.exports = {getNotes,
-                    addNote,
-                    removeNote
+module.exports = {
+                getNotes,
+                addNote,
+                removeNote:removeNote,
+                listNotes:listNotes,
     
     }
