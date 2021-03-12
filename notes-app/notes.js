@@ -12,6 +12,8 @@ const addNote =  (title,body)=>{
         return note.title===title 
     })
 
+    debugger;
+
     if(dup.length<=0){
 
     allNotes.push({
@@ -75,11 +77,16 @@ const loadNotes =  ()=>{
     }
 }
 
+const readNotes = (title)=>{
+    const allNotes=  loadNotes();
+    const myNote = allNotes.find((note)=>  note.title===title )
+    return myNote
+}
 
 module.exports = {
                 getNotes,
                 addNote,
                 removeNote:removeNote,
                 listNotes:listNotes,
-    
+                readNotes:readNotes
     }

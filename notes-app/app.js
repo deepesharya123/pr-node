@@ -46,8 +46,20 @@ yargs.command({
 yargs.command({
     command:"read",
     describe:"READ A NOTE",
-    handler(){
-        notes.listNotes()
+    builder:{
+        title:{
+            describe:"this will be the title",
+            demandOption:true,
+            type:String
+        }
+    },
+    handler(argv){
+        const mynote = notes.readNotes(argv.title);
+        if(mynote!==undefined)
+            console.log(mynote);
+        else
+            console.log("There is note with this name");
+
 
     }
 })
