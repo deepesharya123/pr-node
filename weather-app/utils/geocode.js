@@ -2,9 +2,9 @@ const postman_request = require('postman-request');
 
 const geocode =(address,callback)=>{
     // encodeURIComponent this does help tonot crashing the site if ? OR @ or any other special char is passed
-    const geoCodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+encodeURIComponent(address)+'.json?access_token=pk.eyJ1IjoiZGVlcGVzaGFyeWExIiwiYSI6ImNrOHB2YnBodjBrZngzbW5sdGtyeGg1N3UifQ.nnblJbzxWvRuEznJSufBKg'
+    const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+encodeURIComponent(address)+'.json?access_token=pk.eyJ1IjoiZGVlcGVzaGFyeWExIiwiYSI6ImNrOHB2YnBodjBrZngzbW5sdGtyeGg1N3UifQ.nnblJbzxWvRuEznJSufBKg'
 
-    postman_request({ url : geoCodeURL , json : true },( error, response)=>{
+    postman_request({ url  , json : true },( error, response)=>{
         if(error){
             callback('Unable to connect to the location services ',undefined);
         }else if( response.body.features.length === 0 )  {

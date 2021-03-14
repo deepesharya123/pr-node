@@ -7,7 +7,7 @@ const forecast = ((latitude,longitude,callback)=>{
 
     const url = 'http://api.weatherstack.com/current?access_key=81ed36a8e0dd5214b9f79e5089be27dc&query='+latitude+','+longitude;
 
-    postman_request({url:url,json : true},(error,response)=>{
+    postman_request({ url ,json : true},(error,response)=>{
         if(error){
             callback("Unable to connect to the internet",undefined);
         }else if(response.body.error){
