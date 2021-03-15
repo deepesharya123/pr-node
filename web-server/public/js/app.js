@@ -1,0 +1,1 @@
+console.log("Int eht osin ka bahtu bura")
