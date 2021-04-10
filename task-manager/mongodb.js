@@ -2,7 +2,9 @@
 
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient        // this helps us in performing crud operation
+const OrderID = mongodb.OrderID;
 
+const 
 const connectionURL = 'mongodb://127.0.0.1:27017'       // this is  'mongodb://IP_of_localhost:PORT_no'
 const databaseName = 'task-manager'
 
@@ -48,23 +50,23 @@ MongoClient.connect(connectionURL,{useNewUrlParser:true},(error,client)=>{
     // })
 
 
-    db.collection('taskGiven').insertMany([
-        {
-            description:"learn node",
-            completed:false
-        },{
-            description:'become fit',
-            completed:false
-        },{
-            description:'Do CP',
-            completed:true
-        }
-    ],(error,result)=>{
-        if(error){
-            return console.log("Please check...")
-        }
-        console.log(result.ops)
-    })
+    // db.collection('taskGiven').insertMany([
+    //     {
+    //         description:"learn node",
+    //         completed:false
+    //     },{
+    //         description:'become fit',
+    //         completed:false
+    //     },{
+    //         description:'Do CP',
+    //         completed:true
+    //     }
+    // ],(error,result)=>{
+    //     if(error){
+    //         return console.log("Please check...")
+    //     }
+    //     console.log(result.ops)
+    // })
 
 
 
