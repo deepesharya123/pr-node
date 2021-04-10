@@ -3,9 +3,10 @@ const chalk = require('chalk');
 const notes = require('./notes');
 const fs = require('fs');
 
+// console.log(argv)
 // console.log(process.argv);
 // const command = process.argv[2];
-
+// node app.js add --title="DEEP" --body="ARYA"
 yargs.command({
     'command':"add",
     'describe':"ADD A new NOTE",
@@ -77,4 +78,4 @@ yargs.command({
 })
 
 yargs.parse();
-// console.log(yargs.argv)
+console.log(yargs.argv)

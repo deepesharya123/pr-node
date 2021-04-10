@@ -11,14 +11,31 @@
     <link rel="stylesheet" href="./css/style.css"> 
     </head>
 
-    <script src="../public/js/app.js">
-    </script>
+   
 
   <body>
       
     {{>header}}
 
+      <p>A site for weather searching.</p>
+
+    <form action="">
+
+      <input type="text" placeholder="Location">
+      <button>Search</button>
+    </form>
+
+
+  <p id="message-1"></p>
+  <p id="message-2"></p>
+
+
+
+
   {{>footer}}
+
+   <script src="./js/app.js">
+    </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -10,9 +10,7 @@ const addNote =  (title,body)=>{
     // console.log(typeof(loadingNotes))
     const dup = allNotes.filter((note)=>{
         return note.title===title 
-    })
-
-    debugger;
+    });
 
     if(dup.length<=0){
 
@@ -60,17 +58,18 @@ const listNotes = ()=>{
     }
 } 
 
-
 const saveNotes = (notes)=>{
-    const notesString = JSON.stringify(notes);
-
-    fs.writeFileSync('notes.json',notesString)
+    const notesString = JSON.stringify(notes);  //converts json to string
+    console.log(typeof(notesString));
+    fs.writeFileSync('notes.json',notesString);
 }
 
 const loadNotes =  ()=>{
     try{
+        console.log("loading notes....")
         const dataBuffer = fs.readFileSync('notes.json')
-        const jsonData = dataBuffer.toString();
+        const jsonData = dataBuffer.toString(); // converts buffer to string 
+        console.log("Checking tye "+checkjsonData)
         return JSON.parse(jsonData);
     }catch(e){
         return []
@@ -89,4 +88,4 @@ module.exports = {
                 removeNote:removeNote,
                 listNotes:listNotes,
                 readNotes:readNotes
-    }
+}

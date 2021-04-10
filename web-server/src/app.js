@@ -55,7 +55,9 @@ app.get('/weather',(req,res)=>{
     geocode(address,(error,data)=>{
 
         if(error){
-            return console.log(error)
+            return res.send({
+                error:"UNAble to din the location"
+            })
         }
     
     
