@@ -104,24 +104,53 @@ MongoClient.connect(connectionURL,{useNewUrlParser:true},(error,client)=>{
 
     //  Task given 
     
-     db.collection('taskGiven').find().toArray((error,res)=>{
-        if(error){
-            return console.log("Something is not good...")
-        }
+    //  db.collection('taskGiven').find().toArray((error,res)=>{
+    //     if(error){
+    //         return console.log("Something is not good...")
+    //     }
 
-        const lastTask = res[res.length-1];
-        console.log(lastTask)
+    //     const lastTask = res[res.length-1];
+    //     console.log(lastTask)
         
+    // })
+
+    // db.collection('taskGiven').find({completed:false}).toArray((error,res)=>{
+    //     if(error)
+    //     return console.log("Something is  not good")
+
+    //     const ans = res.filter((task)=> task.completed===false)
+    //     console.log(ans)
+
+    // })
+
+//    const updatePromise =  db.collection('users').updateOne( { _id:ObjectID("6071e8b12406331f942dfb14") } ,{
+//         // $set:{
+//         //     name:'Mike'
+//         // }
+//         $inc:{
+//             age:1
+//         }
+//     })
+
+//     updatePromise.then((result)=>{
+//         // console.log(result)
+//         console.log("All you told has been done",result);
+//     }).catch((error)=>{
+//         console.log("Something went bad.. please forgive me")
+//     })
+
+
+    db.collection('taskGiven').updateMany({completed:false},{
+        $set:{
+            completed:true
+        }
+    }).then((res)=>{
+        console.log(res)
+    }).catch((er)=>{
+        console.log(er)
     })
 
-    db.collection('taskGiven').find({completed:false}).toArray((error,res)=>{
-        if(error)
-        return console.log("Something is  not good")
 
-        const ans = res.filter((task)=> task.completed===false)
-        console.log(ans)
-
-    })
 
 
 })
