@@ -140,17 +140,23 @@ MongoClient.connect(connectionURL,{useNewUrlParser:true},(error,client)=>{
 //     })
 
 
-    db.collection('taskGiven').updateMany({completed:false},{
-        $set:{
-            completed:true
-        }
-    }).then((res)=>{
-        console.log(res)
-    }).catch((er)=>{
-        console.log(er)
-    })
+    // db.collection('taskGiven').updateMany({completed:false},{
+    //     $set:{
+    //         completed:true
+    //     }
+    // }).then((res)=>{
+    //     console.log(res)
+    // }).catch((er)=>{
+    //     console.log(er)
+    // })
 
+    // db.collection('users').deleteMany({
+    //     age:20
+    // }).then((re)=> console.log("Delete")).catch((er)=> console.log(er))
 
-
+    db.collection('taskGiven').deleteOne({
+        description:'become fit'
+    }).then((re)=> console.log("You did it"))
+    .catch((er)=> console.log(er))
 
 })
