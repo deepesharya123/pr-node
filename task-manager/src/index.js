@@ -175,6 +175,29 @@ app.get('/tasks/:id', async (req,res)=>{
     // })
 })
 
+app.patch('/tasks/:id',async(req,res)=>{
+    const allowed = ['completed','description'];
+    const updates = Object.keys(req.body);
+    const isValidOperation = updates.every((update) => allowed.includes(update));
+
+    if(!isValidOperation){
+        return res.status(404).send("Please enter the valid fields");
+    }
+
+    try{
+        const task = await Task.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true});
+
+        if(!task){
+            return res.status(404).send("No user found ");
+        }
+
+        res.send(task);
+    }catch(e){
+        res.status(400).send("No user found")
+    }
+})
+
+
 
 app.listen(port,
     ()=> console.log("Listening on port "+port)
@@ -187,4 +210,4 @@ app.listen(port,
 
 
 
-// Lecture 97 completed
+// Lecture 99 completed
