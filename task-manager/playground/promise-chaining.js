@@ -12,7 +12,7 @@ const User = require('../src/models/user')
 //     console.log(er)
 // })
 
-const UpdateAgeandCount = async(id,age)=>{
+const UpdateAgeandCount = async(id,age)=>{      // async return promise that's why we do need to use async and await 
     const user = await User.findByIdAndUpdate(id, { age } );
     const count = await User.countDocuments({age});
 

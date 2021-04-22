@@ -6,81 +6,147 @@ const Task = require('./models/task');
 
 const port = process.env.PORT || 3000;
 
-app.use(express.json());            // for parsing by express
+app.use(express.json());            // for parsing the objects  we use  express
 
-app.post('/users',(req,res)=>{
-
+app.post('/users', async (req,res)=>{
     const user = new User(req.body);
+    // by using of async await
+    try{
+        await user.save()
+        res.status(200).send(user);
+    }catch(e){
+        res.status(400).send(e);
+    }
 
-    user.save()
-    .then(()=> {
-        res.send(req.body)
-        console.log(req.body)
-
-    })
-    .catch((e)=>{ 
-        res.status(400);
-        console.log(e);
-        res.send(e);
-    })
+    //  by then catch 
+    // user.save()
+    // .then(()=> {
+    //     res.send(req.body)
+    //     console.log(req.body)
+    // })
+    // .catch((e)=>{ 
+    //     res.status(400);
+    //     console.log(e);
+    //     res.send(e);
+    // })
 
 })
 
-app.get('/users',(req,res)=>{
-    User.find({}).then((user)=>{            // this will return all users   
-        res.status(200);
-        res.send(user);
-    }).catch((e)=>{
-        res.status(500).send(e)
-    })
+app.get('/users', async (req,res)=>{
+
+    try{
+        const users = await User.find({});
+        if(!users)
+            return res.send("There are not users");
+
+        res.send(users);
+    }catch(e){
+        res.status(400).send(e);
+    }
+    // with then catch block
+    // User.find({}).then((user)=>{            // this will return all users   
+    //     res.status(200);
+    //     res.send(user);
+    // }).catch((e)=>{
+    //     res.status(500).send(e)
+    // })
 })
 
-app.get('/users/:id',(req,res)=>{
+app.get('/users/:id', async (req,res)=>{
     const _id = req.params.id;
 
-    User.findById({_id}).then((user)=>{
+    try{
+        const user = await User.findById({_id});
+
         if(!user){
-            return res.status(404).send("No user found")
+            return res.send("no user exist");
         }
 
         res.send(user);
-    }).catch((er)=>{
-        return res.status(500).send("Some Server error");
-    })
+    }catch(e){
+        res.status(500).send("No user found ");
+    }
+
+    // User.findById({_id}).then((user)=>{
+    //     if(!user){
+    //         return res.status(404).send("No user found")
+    //     }
+
+    //     res.send(user);
+    // }).catch((er)=>{
+    //     return res.status(500).send("Some Server error");
+    // })
 })
 
 //  Task api's
-app.post('/tasks',(req,res)=>{
+
+app.post('/tasks', async (req,res)=>{
     const task = new Task(req.body);
 
-    task.save().then(()=>{
-        res.statuscode = 200;
+    try{
+        await task.save();
         res.send(task);
-    }).catch((e)=>{
-        res.statuscode = 400;
-        res.send(e);
-    })
+        console.log(task);
+    }catch(e){
+        res.status(500).send("Please make sure you are correct");
+    }
+
+    // //  done by then catch
+    // task.save().then(()=>{
+    //     res.statuscode = 200;
+    //     res.send(task);
+    // }).catch((e)=>{
+    //     res.statuscode = 400;
+    //     res.send(e);
+    // })
 })
 
-app.get('/tasks',(req,res)=>{
-    Task.find({}).then((tasks)=>{
+app.get('/tasks', async (req,res)=>{
+
+    try{
+        const tasks = await Task.find({});
+        if(!tasks)
+            return res.send("Nop user exist");
+        
         res.send(tasks)
-    }).catch((er)=>{
-        res.status(500).send(e)
-    })
+    }catch(e){
+        res.status(404).send("No use exist");
+    }
+
+
+    // then catch for d oing work
+    // Task.find({}).then((tasks)=>{
+    //     res.send(tasks)
+    // }).catch((er)=>{
+    //     res.status(500).send(e)
+    // })
+
 })
 
-app.get('/tasks/:id',(req,res)=>{
-    const _id = req.params.id
-    Task.findById({_id}).then((task)=>{
+app.get('/tasks/:id', async (req,res)=>{
+    
+    const _id = req.params.id;
+    try{
+        const task = await Task.find({_id});
         if(!task){
-            return res.status(400).send("No task found")
+            return res.send("No use exist");
         }
 
-        res.send(task)
-    }).catch((er)=>{
-        return res.status(500).send(er)
-    })
+        res.send(task);
+    }catch(e){
+        res.send("No user found").status(500);
+    }
+    // by then catch block
+    // const _id = req.params.id
+    // Task.findById({_id}).then((task)=>{
+    //     if(!task){
+    //         return res.status(400).send("No task found")
+    //     }
+
+    //     res.send(task)
+    // }).catch((er)=>{
+    //     return res.status(500).send(er)
+    // })
 })
 
 
@@ -95,4 +161,4 @@ app.listen(port,
 
 
 
-// Lecture 95 completed
+// Lecture 96 completed
