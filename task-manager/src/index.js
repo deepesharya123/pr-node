@@ -27,7 +27,7 @@ app.post('/users',(req,res)=>{
 })
 
 app.get('/users',(req,res)=>{
-    User.find({}).then((user)=>{
+    User.find({}).then((user)=>{            // this will return all users   
         res.status(200);
         res.send(user);
     }).catch((e)=>{
@@ -87,3 +87,12 @@ app.get('/tasks/:id',(req,res)=>{
 app.listen(port,
     ()=> console.log("Listening on port "+port)
 );
+
+
+
+
+
+
+
+
+// Lecture 95 completed
