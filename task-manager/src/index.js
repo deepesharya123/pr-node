@@ -78,6 +78,32 @@ app.get('/users/:id', async (req,res)=>{
     // })
 })
 
+app.patch('/users/:id',async(req,res)=>{
+    const allowed  = ['name','age','email','password'];
+    const updates = Object.keys(req.body);
+    const isValidOperation = updates.every((update)=> allowed.includes(update))
+
+    if(!isValidOperation){
+        res.status(400).send("Please enter valid fields");
+    }
+
+    try{
+        const user = await User.findByIdAndUpdate(req.params.id, req.body , {new:true,runValidators:true});
+
+        if(!user){
+            return res.status(400).send("No user exost");
+        }
+
+        res.send(user);
+    }catch(e){
+        res.status(400).send("Please check your fileds");
+    }
+
+
+})
+
+
+
 //  Task api's
 
 app.post('/tasks', async (req,res)=>{
@@ -161,4 +187,4 @@ app.listen(port,
 
 
 
-// Lecture 96 completed
+// Lecture 97 completed
