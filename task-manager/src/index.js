@@ -98,11 +98,19 @@ app.patch('/users/:id',async(req,res)=>{
     }catch(e){
         res.status(400).send("Please check your fileds");
     }
-
-
 })
 
-
+app.delete('/users/:id', async(req,res)=>{
+    try{    
+        const user = await User.findByIdAndDelete(req.params.id);
+        if(!user){
+            return res.status(404).send("No user found");
+        }
+        res.send(user);
+    }catch(e){
+        res.status(500).send()
+    }
+})
 
 //  Task api's
 
@@ -183,21 +191,28 @@ app.patch('/tasks/:id',async(req,res)=>{
     if(!isValidOperation){
         return res.status(404).send("Please enter the valid fields");
     }
-
     try{
         const task = await Task.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true});
-
         if(!task){
             return res.status(404).send("No user found ");
         }
-
         res.send(task);
     }catch(e){
         res.status(400).send("No user found")
     }
 })
 
-
+app.delete('/tasks/:id',async(req,res)=>{
+    try{
+        const task = await Task.findByIdAndDelete(req.params.id);
+        if(!task){
+            return res.status(404).send("No user found");
+        }
+        res.send(task);
+    }catch(e){
+        res.status(500).send()
+    }
+})
 
 app.listen(port,
     ()=> console.log("Listening on port "+port)
@@ -210,4 +225,4 @@ app.listen(port,
 
 
 
-// Lecture 99 completed
+// Lecture 100 completed
