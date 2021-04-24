@@ -2,7 +2,7 @@ const express = require('express');
 const Task = require('../models/task') 
 const router = new express.Router(); 
 
-
+// creating the task
 router.post('/tasks', async (req,res)=>{
     const task = new Task(req.body);
 
@@ -24,6 +24,7 @@ router.post('/tasks', async (req,res)=>{
     // })
 })
 
+// getting all the tasks
 router.get('/tasks', async (req,res)=>{
 
     try{
@@ -46,6 +47,7 @@ router.get('/tasks', async (req,res)=>{
 
 })
 
+// geting the task by its id
 router.get('/tasks/:id', async (req,res)=>{
     
     const _id = req.params.id;
@@ -72,6 +74,7 @@ router.get('/tasks/:id', async (req,res)=>{
     // })
 })
 
+// updating the task by its id
 router.patch('/tasks/:id',async(req,res)=>{
     const allowed = ['completed','description'];
     const updates = Object.keys(req.body);
@@ -96,6 +99,7 @@ router.patch('/tasks/:id',async(req,res)=>{
     }
 })
 
+// deelting the task by its id
 router.delete('/tasks/:id',async(req,res)=>{
     try{
         const task = await Task.findByIdAndDelete(req.params.id);

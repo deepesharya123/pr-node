@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); // for hashing the password
+const jwt = require('jsonwebtoken');    // fore creating the token
+const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema =  new mongoose.Schema({
     name:{
@@ -42,9 +44,26 @@ const userSchema =  new mongoose.Schema({
         }
 
 
-    }
+    },
+    tokens:[{
+        token:{
+            type:String,
+            required:true
+        }
+    }]
 });
 
+// methods method are accessabel from the instance
+userSchema.methods.generateAuthToken = async function(){
+    const user = this;
+    const token = await jwt.sign({_id:user._id.toString()},'hereComesOurSecret');
+    
+    user.tokens = user.tokens.concat({token});
+   
+    return token;
+}
+
+//  static mehotds are accessable on the models
 userSchema.statics.findByCredentials = async(email,password)=>{
     const user = await User.findOne({email});
     console.log(email)
@@ -77,6 +96,8 @@ userSchema.pre('save',async function(next){
     next();
 })
 
-const User = mongoose.model('User',userSchema);
+userSchema.plugin(uniqueValidator);
 
+const User = mongoose.model('User',userSchema);
+    
 module.exports = User

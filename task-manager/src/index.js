@@ -13,8 +13,21 @@ app.use(express.json());            // for parsing the objects  we use  express
 app.use(userRouter);
 app.use(taskRouter);
 
+// const jwt = require('jsonwebtoken');
+// const dowork = async ()=>{
+//     const token = await jwt.sign( { _id:'sahi kaam karo'} , 'asdfasdf',{expiresIn:'2 days'});
+
+//     console.log(token);
+//     const data = await jwt.verify(token,'asdfasdf');
+//     console.log(data)
+// }
+// dowork()
+
+
 app.listen(port,
     ()=> console.log("Listening on port "+port)
 );
 
-// Lecture 105 completed
+
+
+// Lecture 107 completed    

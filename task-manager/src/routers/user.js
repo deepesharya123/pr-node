@@ -2,15 +2,17 @@ const express = require('express');
 const User  = require('../models/user');
 const router = new express.Router();
 
-
+// creating user
 router.post('/users', async (req,res)=>{
     const user = new User(req.body);
     // by using of async await
     try{
         await user.save()
-        res.status(200).send(user);
+        const token = await user.generateAuthToken();
+        res.status(200).send({user,token});
+
     }catch(e){
-        res.status(400).send(e);
+        res.status(400).send("Some error occured");
     }
 
     //  by then catch 
@@ -27,18 +29,19 @@ router.post('/users', async (req,res)=>{
 
 })
 
+// login user
 router.post('/users/login',async(req,res)=>{
     try{
-        console.log(req.body.email)
-        console.log(req.body.password)
         const user = await User.findByCredentials(req.body.email,req.body.password);
-        console.log(user)
-        res.send(user);
+        const token = await user.generateAuthToken();
+
+        res.send({user,token});
     }catch(e){
         res.status(400).send(e)
     }
 })
 
+// get all the users
 router.get('/users', async (req,res)=>{
 
     try{
@@ -59,6 +62,7 @@ router.get('/users', async (req,res)=>{
     // })
 })
 
+// geting user form the id
 router.get('/users/:id', async (req,res)=>{
     const _id = req.params.id;
 
@@ -85,6 +89,7 @@ router.get('/users/:id', async (req,res)=>{
     // })
 })
 
+// updating the user from its id
 router.patch('/users/:id',async(req,res)=>{
     const allowed  = ['name','age','email','password'];
     const updates = Object.keys(req.body);
@@ -112,6 +117,7 @@ router.patch('/users/:id',async(req,res)=>{
     }
 })
 
+// deleting the user form id
 router.delete('/users/:id', async(req,res)=>{
     try{    
         const user = await User.findByIdAndDelete(req.params.id);
