@@ -57,9 +57,11 @@ const userSchema =  new mongoose.Schema({
 userSchema.methods.generateAuthToken = async function(){
     const user = this;
     const token = await jwt.sign({_id:user._id.toString()},'hereComesOurSecret');
-    
-    user.tokens = user.tokens.concat({token});
    
+    user.tokens = user.tokens.concat({token});
+    console.log(token);
+    console.log(user);
+    await user.save()
     return token;
 }
 
@@ -84,15 +86,12 @@ userSchema.statics.findByCredentials = async(email,password)=>{
 // userSchema.pre('name of the event when it sd run',(dunctiof));
 
 userSchema.pre('save',async function(next){
-    
     const user = this;
-
     if(user.isModified('password')){
         //  we are checking that whether password is 
         // hashed from before or not
         user.password = await bcrypt.hash(user.password,8);
     }
-
     next();
 })
 

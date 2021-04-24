@@ -1,6 +1,9 @@
 const express = require('express');
 const User  = require('../models/user');
 const router = new express.Router();
+const auth = require('../middleware/auth');
+//  except login and register route all other routes need to be authenticate
+//  and for authentication they do need to use token
 
 // creating user
 router.post('/users', async (req,res)=>{
@@ -41,18 +44,19 @@ router.post('/users/login',async(req,res)=>{
     }
 })
 
-// get all the users
-router.get('/users', async (req,res)=>{
+// get  the users ()
+router.get('/users/me',auth, async (req,res)=>{
 
-    try{
-        const users = await User.find({});
-        if(!users)
-            return res.send("There are not users");
-
-        res.send(users);
-    }catch(e){
-        res.status(400).send(e);
-    }
+    res.send(req.user)
+    
+    // by the following code it return all the user 
+    // try{
+    //     const users = await User.find({});
+       
+    //     res.send(users);
+    // }catch(e){
+    //     res.status(500).send(e);
+    // }
     // with then catch block
     // User.find({}).then((user)=>{            // this will return all users   
     //     res.status(200);
