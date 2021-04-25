@@ -12,10 +12,10 @@ router.post('/users', async (req,res)=>{
     try{
         await user.save()
         const token = await user.generateAuthToken();
-        res.status(200).send({user,token});
+        res.status(201).send({user,token});
 
     }catch(e){
-        res.status(400).send("Some error occured");
+        res.status(400).send(e);
     }
 
     //  by then catch 
@@ -48,7 +48,7 @@ router.post('/users/login',async(req,res)=>{
 router.get('/users/me',auth, async (req,res)=>{
 
     res.send(req.user)
-    
+
     // by the following code it return all the user 
     // try{
     //     const users = await User.find({});
@@ -66,10 +66,23 @@ router.get('/users/me',auth, async (req,res)=>{
     // })
 })
 
+router.post('/users/logout',auth,async(req,res)=>{
+    try{
+        req.user.tokens = req.user.tokens.filter((token)=>{
+            return token.token !== req.token;
+        })
+        await req.user.save()
+
+        res.send(req.user)
+    }catch(e){
+        res.send(e)
+    }
+})
+
 // geting user form the id
 router.get('/users/:id', async (req,res)=>{
     const _id = req.params.id;
-
+z
     try{
         const user = await User.findById({_id});
 

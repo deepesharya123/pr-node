@@ -6,14 +6,21 @@ const auth = async function (req,res,next){
         const token = req.header('Authorization').replace('Bearer ','')
         const decoded = await jwt.verify(token,'hereComesOurSecret');
         const user = await User.findOne({ _id:decoded._id , 'tokens.token':token });
+        
         if(!user){
             throw new Error()
         }
+        req.token = token;
         req.user = user;
+        console.log(req.user)
+        console.log("GAP")
+        console.log(req.token)
+        
         next();
-        console.log(token)
+        // console.log(token)
     }catch(e){
-        res.status(401).send({error:"Please authenticate"})
+        console.log(e)
+        res.status(401).send("Please Authenitcate")
     }
 
 }
