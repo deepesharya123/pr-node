@@ -41,6 +41,22 @@ app.listen(port,
     ()=> console.log("Listening on port "+port)
 );
 
+// const Task = require('./models/task');
+// const User = require('./models/user');
 
 
-// Lecture 109 completed    
+// way of getting the user as well as lined author profile
+const work = async function(){
+    // const task = await Task.findById('60853a82078a5d225c92b604');
+    // console.log(task)
+    // await task.populate('owner').execPopulate();
+    // console.log(task.owner);
+
+    const user = await User.findById('608539848c6b72373c88ceaf');
+    await user.populate('tasks').execPopulate(); 
+    console.log(user.tasks);
+
+}
+
+work()
+// Lecture 114 completed    
