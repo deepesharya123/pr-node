@@ -3,6 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs'); // for hashing the password
 const jwt = require('jsonwebtoken');    // fore creating the token
 const uniqueValidator = require('mongoose-unique-validator');
+const Task = require('../models/task');
 
 const userSchema =  new mongoose.Schema({
     name:{
@@ -107,6 +108,13 @@ userSchema.pre('save',async function(next){
         // hashed from before or not
         user.password = await bcrypt.hash(user.password,8);
     }
+    next();
+})
+
+userSchema.pre('remove',async function(next){
+    const user = this;
+    const taskTobeDeleted = await Task.deleteMany({owner:user._id});
+    console.log(taskTobeDeleted);
     next();
 })
 
