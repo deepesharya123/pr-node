@@ -52,9 +52,9 @@ const work = async function(){
     // await task.populate('owner').execPopulate();
     // console.log(task.owner);
 
-    const user = await User.findById('608539848c6b72373c88ceaf');
-    await user.populate('tasks').execPopulate(); 
-    console.log(user.tasks);
+    // const user = await User.findById('608539848c6b72373c88ceaf');
+    // await user.populate('tasks').execPopulate(); 
+    // console.log(user.tasks);
 
 }
 
