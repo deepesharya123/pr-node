@@ -22,6 +22,19 @@ const port = process.env.PORT || 3000;
 //     res.status(503).send("Site is under maintaince")
 // })
 
+const multer = require('multer');
+const upload = multer({
+    dest:'images'
+})
+app.post('/upload',upload.single('upload'),(req,res)=>{
+    try{
+        console.log("ALL GOOD")
+        res.send()
+    }catch(e){
+        console.log(e)
+    }
+})
+
 app.use(express.json());            // for parsing the objects  we use  express
 app.use(userRouter);
 app.use(taskRouter);
@@ -36,7 +49,7 @@ app.use(taskRouter);
 // }
 // dowork()
 
-
+ 
 app.listen(port,
     ()=> console.log("Listening on port "+port)
 );
@@ -58,5 +71,6 @@ const work = async function(){
 
 }
 
-work()
+// work()
+
 // Lecture 122 completed     
