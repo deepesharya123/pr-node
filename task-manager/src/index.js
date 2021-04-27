@@ -24,11 +24,26 @@ const port = process.env.PORT || 3000;
 
 const multer = require('multer');
 const upload = multer({
-    dest:'images'
+    dest:'images',
+    limits:{
+        fileSize:1000000    //the size in bytes
+    },
+    fileFilter(req,file,cb){
+        // if(!file.originalname.endsWith('.pdf')){
+        //     return cb(new Error("Please upload a .pdf file "))
+        // }
+
+        if(!file.originalname.match(/.(doc|docx)$/)){
+            return cb(new Error("Please upload a word file."))
+        }
+
+        cb(undefined,true)
+    }
 })
 app.post('/upload',upload.single('upload'),(req,res)=>{
     try{
-        console.log("ALL GOOD")
+        console.log("ALL GOOD"),
+        // fileFilter()
         res.send()
     }catch(e){
         console.log(e)
@@ -73,4 +88,4 @@ const work = async function(){
 
 // work()
 
-// Lecture 122 completed     
+// Lecture 125 completed     
