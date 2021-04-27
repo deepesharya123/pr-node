@@ -22,28 +22,28 @@ const port = process.env.PORT || 3000;
 //     res.status(503).send("Site is under maintaince")
 // })
 
-const multer = require('multer');
-const upload = multer({
-    dest:'images',
-    limits:{
-        fileSize:1000000    //the size in bytes
-    },
-    fileFilter(req,file,cb){
-        // if(!file.originalname.endsWith('.pdf')){
-        //     return cb(new Error("Please upload a .pdf file "))
-        // }
-        if(!file.originalname.match(/.(doc|docx)$/)){
-            return cb(new Error("Please upload a word file."))
-        }
+// const multer = require('multer');
+// const upload = multer({
+//     dest:'images',
+//     limits:{
+//         fileSize:1000000    //the size in bytes
+//     },
+//     fileFilter(req,file,cb){
+//         // if(!file.originalname.endsWith('.pdf')){
+//         //     return cb(new Error("Please upload a .pdf file "))
+//         // }
+//         if(!file.originalname.match(/.(doc|docx)$/)){
+//             return cb(new Error("Please upload a word file."))
+//         }
 
-        cb(undefined,true)
-    }
-})
-app.post('/upload',upload.single('upload'),(req,res)=>{
-    res.send();
-},(error,req,res,next)=>{
-    res.status(400).send({error:error.message})
-})
+//         cb(undefined,true)
+//     }
+// })
+// app.post('/upload',upload.single('upload'),(req,res)=>{
+//     res.send();
+// },(error,req,res,next)=>{
+//     res.status(400).send({error:error.message})
+// })
 
 app.use(express.json());            // for parsing the objects  we use  express
 app.use(userRouter);
@@ -83,4 +83,4 @@ const work = async function(){
 
 // work()
 
-// Lecture 125 completed     
+// Lecture 128 completed     

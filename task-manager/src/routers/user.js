@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const sharp = require('sharp');
 const User  = require('../models/user');
 const router = new express.Router();
 const auth = require('../middleware/auth');
@@ -159,11 +160,11 @@ router.delete('/users/me',auth, async(req,res)=>{
 const upload = multer({
     // dest:'avatar',
     limits:{
-        fileSize: 1000000   // number in bytes
+        fileSize: 10000000   // number in bytes
     },
     fileFilter(req,file,cb){
-        if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
-            return cb(new Error("please upload a image file only"));
+        if(!file.originalname.match(/\.(jpg|jpeg|png|mp4)$/)){
+            return cb(new Error("please upload a image/video file only"));
         }
         cb(undefined,true)
     }
@@ -172,15 +173,20 @@ const upload = multer({
 router.post('/users/me/avatar', auth , upload.single('avatar') , async (req,res)=>{
 //  req.file contains the propery that we may need to handle
 // if we remove dest from the upload instacne of multer then it would directly
-    req.user.avatar = req.file.buffer;
+//  base 64 binary can be used by the folowing way
+//  <img src = "data:image/jpg;base64,/paste_here_your_binary">
     
+
+    // req.user.avatar = req.file.buffer;
+    const buffer = await sharp(req.file.buffer).resize({width:250,height:300}).png().toBuffer();
+    req.user.avatar = buffer; 
     await req.user.save();
 
     console.log("Successfully uploaded avatar");
     res.send();
   
 },(error,req,res,next)=>{   // in uploading part this is responsible for catching error
-    res.send({error:error.message})
+    res.status(400).send({error:error.message})
 })
 
 router.delete('/users/me/avatar',auth, upload.single('avatar') , async (req,res)=>{
@@ -194,6 +200,24 @@ router.delete('/users/me/avatar',auth, upload.single('avatar') , async (req,res)
 
 },(error,req,res,next)=>{
     res.send({error:error.message})
+})
+
+router.get('/users/:id/avatar',async (req,res)=>{
+    try{
+        const user = await User.findById(req.params.id);
+        if(!user || !user.avatar){
+            throw new Error()
+        }
+        console.log("I am here ")
+        res.set('Content-Type','image/png');
+        res.set('Content-Type','video/.mp4');
+        
+        res.send(user.avatar)
+
+    }catch(e){
+        console.log(e)
+        res.status(500).send(e)
+    }
 })
 
 module.exports = router;

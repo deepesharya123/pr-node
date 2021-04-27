@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');    // fore creating the token
 const uniqueValidator = require('mongoose-unique-validator');
 const Task = require('../models/task');
 
+
 const userSchema =  new mongoose.Schema({
     name:{
         type:String,
@@ -68,6 +69,7 @@ userSchema.methods.toJSON = function(){
     const userObject = user.toObject();
     delete userObject.password
     delete userObject.tokens
+    delete userObject.avatar
 
     return userObject
 }
