@@ -32,7 +32,6 @@ const upload = multer({
         // if(!file.originalname.endsWith('.pdf')){
         //     return cb(new Error("Please upload a .pdf file "))
         // }
-
         if(!file.originalname.match(/.(doc|docx)$/)){
             return cb(new Error("Please upload a word file."))
         }
@@ -41,13 +40,9 @@ const upload = multer({
     }
 })
 app.post('/upload',upload.single('upload'),(req,res)=>{
-    try{
-        console.log("ALL GOOD"),
-        // fileFilter()
-        res.send()
-    }catch(e){
-        console.log(e)
-    }
+    res.send();
+},(error,req,res,next)=>{
+    res.status(400).send({error:error.message})
 })
 
 app.use(express.json());            // for parsing the objects  we use  express

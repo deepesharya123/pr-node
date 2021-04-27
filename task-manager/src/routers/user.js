@@ -157,7 +157,7 @@ router.delete('/users/me',auth, async(req,res)=>{
 })
 
 const upload = multer({
-    dest:'avatar',
+    // dest:'avatar',
     limits:{
         fileSize: 1000000   // number in bytes
     },
@@ -169,13 +169,31 @@ const upload = multer({
     }
 })
 
-router.post('/users/me/avatar',upload.single('avatar'),(req,res)=>{
-    try{
-        console.log("Successfully uploaded avatar");
-        res.send();
-    }catch(e){
-        console.log(e)
-        console.log("UNWANTED ERROR")
-    }
+router.post('/users/me/avatar', auth , upload.single('avatar') , async (req,res)=>{
+//  req.file contains the propery that we may need to handle
+// if we remove dest from the upload instacne of multer then it would directly
+    req.user.avatar = req.file.buffer;
+    
+    await req.user.save();
+
+    console.log("Successfully uploaded avatar");
+    res.send();
+  
+},(error,req,res,next)=>{   // in uploading part this is responsible for catching error
+    res.send({error:error.message})
 })
+
+router.delete('/users/me/avatar',auth, upload.single('avatar') , async (req,res)=>{
+
+    if(!req.user.avatar){
+        res.status(400).send("Please check your image does not exist")
+    }
+    req.user.avatar = undefined;
+    await req.user.save();
+    res.send()
+
+},(error,req,res,next)=>{
+    res.send({error:error.message})
+})
+
 module.exports = router;
