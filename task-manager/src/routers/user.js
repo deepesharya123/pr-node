@@ -4,6 +4,7 @@ const sharp = require('sharp');     //sharp can used only for  images editing
 const User  = require('../models/user');
 const router = new express.Router();
 const auth = require('../middleware/auth');
+const { sendWelcomeEmail,sendCancelationEmail } = require('../emails/account');
 //  except login and register route all other routes need to be authenticate
 //  and for authentication they do need to use token
 
@@ -13,6 +14,7 @@ router.post('/users', async (req,res)=>{
     // by using of async await
     try{
         await user.save()
+        // sendWelcomeEmail(user.email,user.name);
         const token = await user.generateAuthToken();
         res.status(201).send({user,token});
 
@@ -149,8 +151,8 @@ router.patch('/users/me',auth,async(req,res)=>{
 router.delete('/users/me',auth, async(req,res)=>{
     try{    
         // const user = await User.findByIdAndDelete(req.user._id);
-        
-        await req.user.remove()
+        sendCancelationEmail(req.user.email,req.user.name);
+        await req.user.remove();
         res.send("ALL DONE");
     }catch(e){
         res.status(500).send()
