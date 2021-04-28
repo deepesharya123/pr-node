@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const sharp = require('sharp');
+const sharp = require('sharp');     //sharp can used only for  images editing
 const User  = require('../models/user');
 const router = new express.Router();
 const auth = require('../middleware/auth');
@@ -160,7 +160,7 @@ router.delete('/users/me',auth, async(req,res)=>{
 const upload = multer({
     // dest:'avatar',
     limits:{
-        fileSize: 10000000   // number in bytes
+        fileSize: 30000000   // number in bytes
     },
     fileFilter(req,file,cb){
         if(!file.originalname.match(/\.(jpg|jpeg|png|mp4)$/)){
@@ -177,7 +177,7 @@ router.post('/users/me/avatar', auth , upload.single('avatar') , async (req,res)
 //  <img src = "data:image/jpg;base64,/paste_here_your_binary">
     
 
-    // req.user.avatar = req.file.buffer;
+    // req.user.avatar = req.file.buffer;      
     const buffer = await sharp(req.file.buffer).resize({width:250,height:300}).png().toBuffer();
     req.user.avatar = buffer; 
     await req.user.save();
@@ -210,7 +210,7 @@ router.get('/users/:id/avatar',async (req,res)=>{
         }
         console.log("I am here ")
         res.set('Content-Type','image/png');
-        res.set('Content-Type','video/.mp4');
+        res.set('Content-Type','video/mp4');
         
         res.send(user.avatar)
 
