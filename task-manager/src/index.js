@@ -8,8 +8,7 @@ const userRouter = require('./routers/user');
 const taskRouter = require('./routers/task');
 
 const app = express();
-const port = process.env.PORT || 3000;
-require('dotenv').config('./dev.env');
+const port = process.env.PORT;
 
 // app.use((req,res,next)=>{
 //     console.log(req.method+" "+req.path)

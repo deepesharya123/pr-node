@@ -1,8 +1,9 @@
 const sgMail = require('@sendgrid/mail');
 
 
-sgMail.setApiKey('HEre some dummy data')
-// sgMail.setApiKey(process.env.apiKEY)
+// sgMail.setApiKey('HEre some dummy data')
+sgMail.setApiKey(process.env.sendgridAPIKey)
+// sendgridAPIKey=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
 
 // console.log(process.env)
 // sgMail.send({
