@@ -77,7 +77,7 @@ userSchema.methods.toJSON = function(){
 // methods method are accessabel from the instance
 userSchema.methods.generateAuthToken = async function(){
     const user = this;
-    const token = await jwt.sign({_id:user._id.toString()},'hereComesOurSecret');
+    const token = await jwt.sign({_id:user._id.toString()},process.env.MY_SECRET);
    
     user.tokens = user.tokens.concat({token});
     console.log(token);
