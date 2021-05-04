@@ -44,7 +44,7 @@ router.post('/users/login',async(req,res)=>{
 
         res.send({user,token});
     }catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e);
     }
 })
 
@@ -165,7 +165,7 @@ const upload = multer({
         fileSize: 30000000   // number in bytes
     },
     fileFilter(req,file,cb){
-        if(!file.originalname.match(/\.(jpg|jpeg|png|mp4)$/)){
+        if(!file.originalname.endsWith(/\.(jpg|jpeg|png|mp4)$/)){
             return cb(new Error("please upload a image/video file only"));
         }
         cb(undefined,true)
@@ -184,8 +184,8 @@ router.post('/users/me/avatar', auth , upload.single('avatar') , async (req,res)
     req.user.avatar = buffer; 
     await req.user.save();
 
-    console.log("Successfully uploaded avatar");
-    res.send();
+    console.log("Successfully uploaded avatar");    
+    res.send(); 
   
 },(error,req,res,next)=>{   // in uploading part this is responsible for catching error
     res.status(400).send({error:error.message})

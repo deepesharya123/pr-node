@@ -20,7 +20,7 @@ const sendWelcomeEmail  = (email,name)=>{
         subject :  `Welcome to the platform.`,
         text:`Dear ${name} , <br> we welcome you on thius very amazing platform.`,
         html : 'here we can use the html code'  
-    })
+    }).then(()=> console.log("Sent the cancellation email")).catch((e)=>console.log(e))
 }
 
 const sendCancelationEmail = (email,name)=>{
@@ -29,7 +29,7 @@ const sendCancelationEmail = (email,name)=>{
         from : 'vidkart4u@gmail.com',
         subject : 'GoodBYE EMAIL',
         text :  `Dear ${name} , it is very hard to see you goodbye` 
-    })
+    }).then(()=> console.log("Sent the cancellation email")).catch((e)=>console.log(e))
 }
 
 module.exports = {
